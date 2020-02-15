@@ -13,24 +13,24 @@ singletemp=[]
 temparray=[]
 weightarray=[]
 count=0
-for i in range(len(mack_ns)):
-    lat = mack_ns[i][0]
-    long = mack_ns[i][1]
+for i in range(len(herr_ns)):
+    lat = herr_ns[i][0]
+    long = herr_ns[i][1]
     for elt in data:
         if lat < elt['lat'] < lat+0.5 and long < elt['long'] < long+1:
             singletemp.append(elt['temp'])
             count+=1
     x=np.sum(singletemp)
     y=x/count
-    temparray.append(y*mack_ns[i][2])
-    weightarray.append(mack_ns[i][2])
+    temparray.append(y*herr_ns[i][2])
+    weightarray.append(herr_ns[i][2])
     #print(singletemp)
 
 totalweight= np.sum(weightarray)
 totaltemp = np.sum(temparray)
-average = totaltemp/totalweight
+average = str(totaltemp/totalweight)
 file.write(average)
-print("North Sea Mackerel: ", totaltemp/totalweight)
+print("North Sea Herring: ", totaltemp/totalweight)
 
 
 
