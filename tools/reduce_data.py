@@ -21,7 +21,7 @@ for file in os.listdir("../data"):
         table2.add_column(long, name='long')
         table2.add_column(temp, name='temp')
 
-        table3 = table2[(table2['year'] > 2010)]
+        table3 = table2[(table2['year'] >= 2018) & (table2['temp'] > 0)]
         table4 = vstack([table4, table3])
 
 print(table4)
