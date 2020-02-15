@@ -25,4 +25,4 @@ def clean(year_lim):
             table3 = table2[(table2['year'] >= year_lim) & (table2['temp'] > 0)]
             table4 = vstack([table4, table3])
 
-    table4.write('../data/clean_data.csv', format='csv', overwrite=True)
+    table4.write('../processed_data/clean_data.csv', format='csv', overwrite=True)

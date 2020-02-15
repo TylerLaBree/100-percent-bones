@@ -5,18 +5,18 @@ import matplotlib.pyplot as plt
 
 
 def temp_vis(zoom_x, zoom_y):
-    tmap = np.genfromtxt("../data/tmap.csv",delimiter=',')
+    tmap = np.genfromtxt("../processed_data/tmap.csv", delimiter=',')
     sb.set(font_scale=1)
-    binsx=np.linspace(-20, 9, 30*zoom_x)
-    binsx=binsx.astype(int)
-    binsy=np.linspace(69, 50, 20*zoom_y)
-    binsy=binsy.astype(int)
+    binsx = np.linspace(-20, 9, 30*zoom_x)
+    binsx = binsx.astype(int)
+    binsy = np.linspace(69, 50, 20*zoom_y)
+    binsy = binsy.astype(int)
     heat_map = sb.heatmap(tmap, xticklabels=binsx, yticklabels=binsy, cmap='coolwarm')
     plt.show()
 
 
 def temp_arr(zoom_x, zoom_y):
-    file = '../data/clean_data.csv'
+    file = '../processed_data/clean_data.csv'
     data = Table.read(file)
     data_table = data
 
@@ -38,5 +38,5 @@ def temp_arr(zoom_x, zoom_y):
                 tmap[i][j] /= npts[i][j]
                 npts[i][j] = np.math.floor(npts[i][j])
 
-    np.savetxt('../data/npts.csv', npts, delimiter=',')
-    np.savetxt('../data/tmap.csv', tmap, delimiter=',')
+    np.savetxt('../processed_data/npts.csv', npts, delimiter=',')
+    np.savetxt('../processed_data/tmap.csv', tmap, delimiter=',')
