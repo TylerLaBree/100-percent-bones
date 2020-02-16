@@ -32,7 +32,7 @@ def temp_arr(zoom_x, zoom_y, map_file='../processed_data/tmap.csv', data_file='.
     tmap = [[0 for x in range(num_long*zoom_x)] for y in range(num_lat*zoom_y)]
 
     for d_pt in data_table:
-        i = zoom_y*50 - int(np.math.floor(d_pt['lat']*zoom_y))
+        i = zoom_y*70 - int(np.math.floor(d_pt['lat']*zoom_y))-1
         j = int(np.math.floor(d_pt['long']*zoom_x)) + 20*zoom_x
         npts[i][j] += 1
         tmap[i][j] += d_pt['temp']
