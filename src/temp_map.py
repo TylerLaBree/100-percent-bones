@@ -107,7 +107,7 @@ def fish_vis(mean, std, zoom_x, zoom_y, fish_type, year, map_file='../processed_
     y_tick_labels = [y_list[idy] for idy in y_ticks]
 
     ax = plt.axes()
-    heat_map = sb.heatmap(fmap, xticklabels=x_tick_labels, yticklabels=y_tick_labels, cmap=cmap, alpha=alpha, zorder=2)
+    heat_map = sb.heatmap(fmap, xticklabels=x_tick_labels, yticklabels=y_tick_labels, cmap=cmap, alpha=alpha, zorder=1)
     ax.set_xticks(x_ticks)
     ax.set_yticks(y_ticks)
     ax.set_xticklabels(ax.get_xticklabels(), rotation=0)
