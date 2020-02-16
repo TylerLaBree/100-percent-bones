@@ -2,6 +2,7 @@ from astropy.table import Table
 import numpy as np
 import seaborn as sb
 import matplotlib.pyplot as plt
+import temp_study as s
 
 
 def temp_vis(zoom_x, zoom_y, year, map_file='../processed_data/tmap.csv,',alpha=1):
@@ -52,25 +53,33 @@ def temp_arr(zoom_x, zoom_y, map_file='../processed_data/tmap.csv', data_file='.
     return tmap
 
 
-def change_temp(year, zoom_x, zoom_y, in_file='../processed_data/tmap.csv', out_file='../processed_data/future_tmap.csv'):
+def change_temp(year, zoom_x, zoom_y, danger=0, in_file='../processed_data/tmap.csv', out_file='../processed_data/future_tmap.csv'):
     # print('changing temperature by: ',temp_change)
     tmap1 = np.genfromtxt(in_file, delimiter=',')
     tmap2 = [[0 for x in range(len(tmap1[0]))] for y in range(len(tmap1))]
 
     for i in range(len(tmap1)):
         for j in range(len(tmap1[0])):
-            print(i/zoom_y, j/zoom_x)
+            # print(i/zoom_y, j/zoom_x)
             if i/zoom_y <= 9:
                 # Norwegian Sea
-                temp_change = 0.036
+                param, perr = s.get_curve_pars(0.019, 0.036)
             elif j/zoom_x <= 16:
                 # Celtic Biscay Shelf (North Atlantic)
-                temp_change = 0.026
+                param, perr = s.get_curve_pars(0.019, 0.026)
             else:
                 # North Sea
-                temp_change = 0.031
+                param, perr = s.get_curve_pars(0.022, 0.031)
+
+            if danger == -1:
+                param[0] -= perr[0]
+                param[1] -= perr[1]
+            elif danger == 1:
+                param[0] += perr[0]
+                param[1] += perr[1]
             if tmap1[i][j] != 0:
-                tmap2[i][j] = tmap1[i][j] + temp_change*(year-2020)
+                warming = s.exponential(year-1900, param[0], param[1]) - s.exponential(2020-1900, param[0], param[1])
+                tmap2[i][j] = tmap1[i][j] + warming
     np.savetxt(out_file, tmap2, delimiter=',')
 
 
