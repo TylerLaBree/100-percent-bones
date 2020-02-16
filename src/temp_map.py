@@ -52,21 +52,26 @@ def temp_arr(zoom_x, zoom_y, map_file='../processed_data/tmap.csv', data_file='.
     return tmap
 
 
-def change_temp(temp_change, in_file='../processed_data/tmap.csv', out_file='../processed_data/future_tmap.csv'):
-    print('changing temperature by: ',temp_change)
+def change_temp(year, zoom_x, zoom_y, in_file='../processed_data/tmap.csv', out_file='../processed_data/future_tmap.csv'):
+    # print('changing temperature by: ',temp_change)
     tmap1 = np.genfromtxt(in_file, delimiter=',')
     tmap2 = [[0 for x in range(len(tmap1[0]))] for y in range(len(tmap1))]
 
     for i in range(len(tmap1)):
         for j in range(len(tmap1[0])):
-            tmap2[i][j] = tmap1[i][j] + temp_change
+            print(i/zoom_y, j/zoom_x)
+            if i/zoom_y <= 9:
+                # Norwegian Sea
+                temp_change = 0.036
+            elif j/zoom_x <= 16:
+                # Celtic Biscay Shelf (North Atlantic)
+                temp_change = 0.026
+            else:
+                # North Sea
+                temp_change = 0.031
+            if tmap1[i][j] != 0:
+                tmap2[i][j] = tmap1[i][j] + temp_change*(year-2020)
     np.savetxt(out_file, tmap2, delimiter=',')
-
-
-def temp_from_year(year):
-    temp = (year-2020)*0.035
-    print('temperature change ', temp, ' C corresponds to year ', year)
-    return temp
 
 
 def gaussian(x, mu, sig):
