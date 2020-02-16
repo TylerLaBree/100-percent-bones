@@ -8,17 +8,22 @@ def temp_vis(zoom_x, zoom_y, year, map_file='../processed_data/tmap.csv,'):
     # print('visualizing temperature')
     tmap = np.genfromtxt(map_file, delimiter=',')
     sb.set(font_scale=1)
-    binsx = np.linspace(-20, 9, 30*zoom_x)
-    binsx = binsx.astype(int)
-    binsy = np.linspace(69, 50, 20*zoom_y)
-    binsy = binsy.astype(int)
+    x_list = np.linspace(-20, 10, 30*zoom_x).astype(int)
+    y_list = np.linspace(70, 50, 20*zoom_y).astype(int)
+    x_ticks = np.linspace(0, len(x_list) - 1, 4,  dtype=np.int)
+    y_ticks = np.linspace(0, len(y_list) - 1, 3,  dtype=np.int)
+    x_tick_labels = [x_list[idx] for idx in x_ticks]
+    y_tick_labels = [y_list[idy] for idy in y_ticks]
+
     ax = plt.axes()
-    heat_map = sb.heatmap(tmap, xticklabels=binsx, yticklabels=binsy, cmap='coolwarm',alpha=0.5,zorder=2)
-    ax.set_title('Temperature in {}'.format(year))
-    plt.xlabel('Longitude')
-    plt.ylabel('Latitude')
+    heat_map = sb.heatmap(tmap, xticklabels=x_tick_labels, yticklabels=y_tick_labels, cmap='coolwarm', zorder=2)
+    ax.set_xticks(x_ticks)
+    ax.set_yticks(y_ticks)
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=0)
+    ax.set_title('Temperature (°C) in {}'.format(year))
+    plt.xlabel('Longitude (°E)')
+    plt.ylabel('Latitude (°N)')
     return heat_map
-    #plt.show()
 
 
 def temp_arr(zoom_x, zoom_y, map_file='../processed_data/tmap.csv', data_file='../processed_data/clean_data.csv'):
@@ -87,7 +92,6 @@ def fish_vis(mean, std, zoom_x, zoom_y, fish_type, year, map_file='../processed_
     ax = plt.axes()
     heat_map = sb.heatmap(fmap, xticklabels=binsx, yticklabels=binsy, cmap='OrRd',zorder=1)
     ax.set_title('Number of {} in {}'.format(fish_type,year))
-    plt.xlabel('Longitude')
-    plt.ylabel('Latitude')
+    plt.xlabel('Longitude (°E)')
+    plt.ylabel('Latitude (°N)')
     return heat_map
-    #plt.show()
