@@ -12,11 +12,15 @@ def temp_vis(zoom_x, zoom_y, map_file='../processed_data/tmap.csv'):
     binsx = binsx.astype(int)
     binsy = np.linspace(69, 50, 20*zoom_y)
     binsy = binsy.astype(int)
+    ax = plt.axes()
     heat_map = sb.heatmap(tmap, xticklabels=binsx, yticklabels=binsy, cmap='coolwarm')
+    ax.set_title('Temperature')
+    plt.xlabel('Longitude')
+    plt.ylabel('Latitude')
     plt.show()
 
 
-def temp_arr(zoom_x, zoom_y, map_file='../processed_data/tmap.csv', data_file='../processed_data/clean_data.csv'):
+def temp_arr(zoom_x, zoom_y, map_file='../processed_data/tmap.csv', data_file='../processed_data/clean_data_2010.csv'):
     print('building temperature array')
     data = Table.read(data_file)
     data_table = data
@@ -63,7 +67,7 @@ def gaussian(x, mu, sig):
     return np.exp(-np.power(x - mu, 2.) / (2 * np.power(sig, 2.)))
 
 
-def fish_vis(mean, std, zoom_x, zoom_y, map_file='../processed_data/tmap.csv'):
+def fish_vis(mean, std, zoom_x, zoom_y, fish_type, map_file='../processed_data/tmap.csv'):
     num_lat = 20
     num_long = 30
 
@@ -79,5 +83,9 @@ def fish_vis(mean, std, zoom_x, zoom_y, map_file='../processed_data/tmap.csv'):
     binsx = binsx.astype(int)
     binsy = np.linspace(69, 50, 20*zoom_y)
     binsy = binsy.astype(int)
+    ax = plt.axes()
     heat_map = sb.heatmap(fmap, xticklabels=binsx, yticklabels=binsy, cmap='OrRd')
+    ax.set_title('Number of '+ fish_type)
+    plt.xlabel('Longitude')
+    plt.ylabel('Latitude')
     plt.show()
