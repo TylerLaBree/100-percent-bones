@@ -4,7 +4,7 @@ import seaborn as sb
 import matplotlib.pyplot as plt
 
 
-def temp_vis(zoom_x, zoom_y, year, map_file='../processed_data/tmap.csv,'):
+def temp_vis(zoom_x, zoom_y, year, map_file='../processed_data/tmap.csv,',alpha=1):
     # print('visualizing temperature')
     tmap = np.genfromtxt(map_file, delimiter=',')
     sb.set(font_scale=1)
@@ -16,7 +16,7 @@ def temp_vis(zoom_x, zoom_y, year, map_file='../processed_data/tmap.csv,'):
     y_tick_labels = [y_list[idy] for idy in y_ticks]
 
     ax = plt.axes()
-    heat_map = sb.heatmap(tmap, xticklabels=x_tick_labels, yticklabels=y_tick_labels, cmap='coolwarm', zorder=2)
+    heat_map = sb.heatmap(tmap, xticklabels=x_tick_labels, yticklabels=y_tick_labels, cmap='coolwarm', alpha=alpha, zorder=2)
     ax.set_xticks(x_ticks)
     ax.set_yticks(y_ticks)
     ax.set_xticklabels(ax.get_xticklabels(), rotation=0)
@@ -73,7 +73,7 @@ def gaussian(x, mu, sig):
     return np.exp(-np.power(x - mu, 2.) / (2 * np.power(sig, 2.)))
 
 
-def fish_vis(mean, std, zoom_x, zoom_y, fish_type, year, map_file='../processed_data/tmap.csv'):
+def fish_vis(mean, std, zoom_x, zoom_y, fish_type, year, map_file='../processed_data/tmap.csv',cmap='OrRd'):
     num_lat = 20
     num_long = 30
 
@@ -90,7 +90,7 @@ def fish_vis(mean, std, zoom_x, zoom_y, fish_type, year, map_file='../processed_
     binsy = np.linspace(69, 50, 20*zoom_y)
     binsy = binsy.astype(int)
     ax = plt.axes()
-    heat_map = sb.heatmap(fmap, xticklabels=binsx, yticklabels=binsy, cmap='OrRd',zorder=1)
+    heat_map = sb.heatmap(fmap, xticklabels=binsx, yticklabels=binsy, cmap=cmap,zorder=1)
     ax.set_title('Number of {} in {}'.format(fish_type,year))
     plt.xlabel('Longitude (°E)')
     plt.ylabel('Latitude (°N)')
