@@ -87,7 +87,7 @@ def gaussian(x, mu, sig):
     return np.exp(-np.power(x - mu, 2.) / (2 * np.power(sig, 2.)))
 
 
-def fish_vis(mean, std, zoom_x, zoom_y, fish_type, year, map_file='../processed_data/tmap.csv',cmap='OrRd'):
+def fish_vis(mean, std, zoom_x, zoom_y, fish_type, year, map_file='../processed_data/tmap.csv', cmap='OrRd', alpha=1):
     num_lat = 20
     num_long = 30
 
@@ -99,12 +99,18 @@ def fish_vis(mean, std, zoom_x, zoom_y, fish_type, year, map_file='../processed_
             fmap[i][j] = gaussian(tmap[i][j], mean, std)
 
     sb.set(font_scale=1)
-    binsx = np.linspace(-20, 9, 30*zoom_x)
-    binsx = binsx.astype(int)
-    binsy = np.linspace(69, 50, 20*zoom_y)
-    binsy = binsy.astype(int)
+    x_list = np.linspace(-20, 10, 30*zoom_x).astype(int)
+    y_list = np.linspace(70, 50, 20*zoom_y).astype(int)
+    x_ticks = np.linspace(0, len(x_list) - 1, 4,  dtype=np.int)
+    y_ticks = np.linspace(0, len(y_list) - 1, 3,  dtype=np.int)
+    x_tick_labels = [x_list[idx] for idx in x_ticks]
+    y_tick_labels = [y_list[idy] for idy in y_ticks]
+
     ax = plt.axes()
-    heat_map = sb.heatmap(fmap, xticklabels=binsx, yticklabels=binsy, cmap=cmap,zorder=1)
+    heat_map = sb.heatmap(fmap, xticklabels=x_tick_labels, yticklabels=y_tick_labels, cmap=cmap, alpha=alpha, zorder=2)
+    ax.set_xticks(x_ticks)
+    ax.set_yticks(y_ticks)
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=0)
     ax.set_title('Number of {} in {}'.format(fish_type,year))
     plt.xlabel('Longitude (°E)')
     plt.ylabel('Latitude (°N)')
