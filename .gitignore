@@ -1,6 +1,6 @@
 .idea/
 processed_data/*
-!processed_data/clean_data*
+!processed_data/clean_data_2010.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
