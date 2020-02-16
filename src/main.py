@@ -6,7 +6,9 @@ zoom_x = 5
 zoom_y = 10
 
 # clean data and create temperature array
-r.clean(1900)
+# r.clean(1900, data_file='../processed_data/clean_data_1900.csv')
+r.clean(2010, data_file='../processed_data/clean_data_2010.csv')
+
 t.temp_arr(zoom_x, zoom_y)
 
 # find fish preferred temps
