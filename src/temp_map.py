@@ -43,6 +43,7 @@ def temp_arr(zoom_x, zoom_y, map_file='../processed_data/tmap.csv', data_file='.
 
 
 def change_temp(temp_change, in_file='../processed_data/tmap.csv', out_file='../processed_data/future_tmap.csv'):
+    print('changing temperature by: ',temp_change)
     tmap1 = np.genfromtxt(in_file, delimiter=',')
     tmap2 = [[0 for x in range(len(tmap1[0]))] for y in range(len(tmap1))]
 
@@ -50,11 +51,12 @@ def change_temp(temp_change, in_file='../processed_data/tmap.csv', out_file='../
         for j in range(len(tmap1[0])):
             tmap2[i][j] = tmap1[i][j] + temp_change
     np.savetxt(out_file, tmap2, delimiter=',')
-    print(len(tmap2[0]))
 
 
 def temp_from_year(year):
-    return (year-2020)*0.03
+    temp = (year-2020)*0.035
+    print('temperature change ', temp, ' C corresponds to year ', year)
+    return temp
 
 
 def gaussian(x, mu, sig):
